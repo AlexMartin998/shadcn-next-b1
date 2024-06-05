@@ -22,7 +22,11 @@ const links = [
   {
     name: 'calendar',
     href: 'calendar',
-  }
+  },
+  {
+    name: 'avatar',
+    href: 'avatar',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

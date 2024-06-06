@@ -31,6 +31,10 @@ const links = [
     name: 'card',
     href: 'card',
   },
+  {
+    name: 'carousel',
+    href: 'carousel',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

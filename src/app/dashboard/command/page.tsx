@@ -94,15 +94,20 @@ const Page: React.FC<PageProps> = () => {
       </p>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
+        {/* ================== Command Input ================== */}
         <CommandInput placeholder="Type a command or search..." />
 
+        {/* ================== Command List ================== */}
         <CommandList>
+          {/* ---------------- Command Empty ---------------- */}
           <CommandEmpty>No results found.</CommandEmpty>
 
           {commandGroups.map((group, index) => (
             <div key={group.heading}>
+              {/* ================== Command Group ================== */}
               <CommandGroup heading={group.heading}>
                 {group.commands.map(command => (
+                  // ================== Command Item ==================
                   <CommandItem key={command.text}>
                     <command.icon className="mr-2 h-4 w-4" />
 

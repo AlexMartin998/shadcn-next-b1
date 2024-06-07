@@ -68,6 +68,11 @@ const links = [
     name: 'progress',
     href: 'progress',
   },
+
+  {
+    name: 'sheet',
+    href: 'sheet',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

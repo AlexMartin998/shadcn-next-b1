@@ -62,7 +62,12 @@ const links = [
   {
     name: 'otp',
     href: 'otp',
-  }
+  },
+
+  {
+    name: 'progress',
+    href: 'progress',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

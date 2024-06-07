@@ -5,7 +5,11 @@ import './globals.css';
 import { cn } from '@/lib/utils'; // fn helper to join classnames and use conditional classes
 import { Inter as FontSans } from 'next/font/google';
 
+// // Toaster
 import { Toaster } from '@/components/ui/toaster';
+
+// // Sonner
+import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -33,6 +37,10 @@ export default function RootLayout({
         {children}
 
         <Toaster />
+        <SonnerToaster
+          // to set custom colors xq es stayless x default
+          richColors
+        />
       </body>
     </html>
   );

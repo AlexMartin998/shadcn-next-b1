@@ -83,7 +83,13 @@ const links = [
   {
     name: 'slider',
     href: 'slider',
-  }
+  },
+
+  // sonner: like a toaster, but multiple
+  {
+    name: 'sonner',
+    href: 'sonner',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

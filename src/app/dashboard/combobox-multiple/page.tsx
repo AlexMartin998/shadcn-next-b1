@@ -83,13 +83,23 @@ const Page: React.FC<PageProps> = () => {
         }
       />
 
-      <Button
-        onClick={() => {
-          console.log(defaultValues);
-        }}
-      >
-        Print selected values
-      </Button>
+      <div className="flex flex-col space-y-4">
+        <Button
+          onClick={() => {
+            console.log(defaultValues);
+          }}
+        >
+          Print selected values
+        </Button>
+
+        <Button
+          onClick={() => {
+            setDefaultValues([]);
+          }}
+        >
+          Clear selected values
+        </Button>
+      </div>
     </div>
   );
 };

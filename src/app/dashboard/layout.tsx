@@ -57,6 +57,12 @@ const links = [
     name: 'combobox multiple',
     href: 'combobox-multiple',
   },
+
+  // other
+  {
+    name: 'otp',
+    href: 'otp',
+  }
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

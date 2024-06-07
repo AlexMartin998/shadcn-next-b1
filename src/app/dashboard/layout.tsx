@@ -53,6 +53,10 @@ const links = [
     name: 'combobox custom',
     href: 'combobox-custom-1',
   },
+  {
+    name: 'combobox multiple',
+    href: 'combobox-multiple',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

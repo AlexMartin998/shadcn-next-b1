@@ -73,6 +73,12 @@ const links = [
     name: 'sheet',
     href: 'sheet',
   },
+
+  // skeleton ayudado de next.js con el async
+  {
+    name: 'skeleton',
+    href: 'skeleton',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

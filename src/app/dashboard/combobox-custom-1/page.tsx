@@ -38,7 +38,7 @@ const Page: React.FC<PageProps> = () => {
   const [value, setValue] = useState<string>('');
 
   return (
-    <>
+    <div className="flex items-center gap-4">
       <CustomComboboxNoForm<FrameworkType>
         label="label"
         valueKey="value"
@@ -55,7 +55,11 @@ const Page: React.FC<PageProps> = () => {
           console.log(framework);
         }}
       />
-    </>
+
+      <div className="text-sm text-gray-500">
+        <p>Value: {value}</p>
+      </div>
+    </div>
   );
 };
 

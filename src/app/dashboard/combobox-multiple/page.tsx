@@ -1,6 +1,7 @@
 'use client';
 
 import { MultipleSelector } from '@/components/miltiple-selection';
+import { MultipleCombobox } from '@/components/miltiple-selection/MultipleCombobox';
 import { Option } from '@/components/miltiple-selection/MultipleSelector';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -60,45 +61,97 @@ const Page: React.FC<PageProps> = () => {
     )
   );
 
+  // directo como string[], las options se deberian mapear en base a lo q pida el backend, y como W el component, es decir: { label: name, value: id/code/uuid}
+  const [selectedValues, setSelectedValues] = useState<string[]>(
+    OPTIONS.filter(option =>
+      ['vercel', 'nextjs', 'react', 'azure'].includes(option.value)
+    ).map(option => option.value)
+  );
+
   return (
     <div className="grid grid-cols-2 gap-7">
-      <MultipleSelector
-        // default values ------
-        value={defaultValues}
-        onChange={setDefaultValues}
-        // options ------
-        defaultOptions={OPTIONS}
-        placeholder="Select frameworks you like..."
-        emptyIndicator={
-          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-            no results found.
-          </p>
-        }
-        // is loading ------
-        // isCustomLoading
-        loadingIndicator={
-          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400 py-4">
-            loading...
-          </p>
-        }
-      />
+      {/* ======================= El mero mero ======================= */}
+      <div className="flex flex-col gap-5">
+        <h1 className="text-2xl font-bold">Multiple Combobox Selector</h1>
 
-      <div className="flex flex-col space-y-4">
-        <Button
-          onClick={() => {
-            console.log(defaultValues);
-          }}
-        >
-          Print selected values
-        </Button>
+        <MultipleCombobox
+          options={OPTIONS}
+          defaultValue={selectedValues}
+          onValueChange={setSelectedValues}
+          placeholder="Select frameworks"
+          variant="inverted" // badged variant
+          maxCount={3}
+          // animation={2}
+        />
 
-        <Button
-          onClick={() => {
-            setDefaultValues([]);
-          }}
-        >
-          Clear selected values
-        </Button>
+        <div className="flex w-full items-center justify-center gap-5">
+          <Button
+            onClick={() => {
+              console.log(selectedValues);
+            }}
+          >
+            Print selected values
+          </Button>
+
+          <Button
+            onClick={() => {
+              setSelectedValues([]);
+            }}
+            variant="ghost"
+          >
+            Clear selected values
+          </Button>
+        </div>
+      </div>
+
+      {/* ----- FORM ----- */}
+      {/* https://github.com/sersavan/shadcn-multi-select-component/blob/main/src/app/page.tsx */}
+
+      {/* ======================= Falta funcionalidad de maxCount pero tiene onSearch ======================= */}
+      <div className="flex flex-col gap-5">
+        <h1 className="text-2xl font-bold">Multiple Selector v1</h1>
+
+        <MultipleSelector
+          // default values ------
+          value={defaultValues}
+          onChange={setDefaultValues}
+          // options ------
+          defaultOptions={OPTIONS}
+          placeholder="Select frameworks you like..."
+          emptyIndicator={
+            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+              no results found.
+            </p>
+          }
+          // onSearch={} // nativo
+
+          // is loading ------
+          // isCustomLoading
+          loadingIndicator={
+            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400 py-4">
+              loading...
+            </p>
+          }
+        />
+
+        <div className="flex w-fullc items-center justify-center gap-5">
+          <Button
+            onClick={() => {
+              console.log(defaultValues);
+            }}
+          >
+            Print selected values
+          </Button>
+
+          <Button
+            onClick={() => {
+              setDefaultValues([]);
+            }}
+            variant="ghost"
+          >
+            Clear selected values
+          </Button>
+        </div>
       </div>
     </div>
   );

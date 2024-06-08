@@ -1,12 +1,19 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  useReactTable,
+
   // pagination -------
   getPaginationRowModel,
-  useReactTable,
+
+  // sort -------
+  SortingState,
+  getSortedRowModel,
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -28,6 +35,10 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  ///* local state -----------------
+  // sort -------
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   // // Actual table Logic - Hook ===================================
   const table = useReactTable({
     data,
@@ -36,6 +47,13 @@ export function DataTable<TData, TValue>({
 
     // pagination: Client Side -------
     getPaginationRowModel: getPaginationRowModel(),
+
+    // sort -------
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   return (

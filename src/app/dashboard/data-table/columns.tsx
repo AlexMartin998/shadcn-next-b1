@@ -31,20 +31,32 @@ const calcStatusVariant = (status: ColorBadgedType) => {
   return variant[status] || '';
 };
 
+// // Sort Colum Data ----------------
+import { SortColumData } from '@/components/custom-ui/data-table';
+
 // // // Columns ========================================
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: 'clientName',
-    header: 'Client Name',
+    // header: 'Client Name',
+    header: ({ column }) => {
+      return <SortColumData label="Client Name" column={column} />;
+    },
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: ({ column }) => {
+      return <SortColumData label="Email" column={column} />;
+    },
   },
 
   {
     accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
+    header: ({ column }) => (
+      <div className="text-right">
+        <SortColumData label="Amount" column={column} />
+      </div>
+    ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('amount'));
       const formatted = new Intl.NumberFormat('en-US', {
@@ -55,6 +67,7 @@ export const columns: ColumnDef<Payment>[] = [
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
+
   {
     accessorKey: 'status',
     header: 'Status',

@@ -19,7 +19,7 @@ import { toast } from '@/components/ui/use-toast';
 import { MoreHorizontal } from 'lucide-react';
 
 // // Status badge ----------------
-type ColorBadgedType = 'pending' | 'processing' | 'success' | 'failed';
+export type ColorBadgedType = 'pending' | 'processing' | 'success' | 'failed';
 const calcStatusVariant = (status: ColorBadgedType) => {
   const variant: Record<ColorBadgedType, string> = {
     pending: 'bg-yellow-100 text-yellow-800',

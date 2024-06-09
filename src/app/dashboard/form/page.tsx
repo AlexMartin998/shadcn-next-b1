@@ -18,13 +18,27 @@ import {
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 
-import { CustomInputComponent } from '@/components/custom-ui/forms';
+import {
+  CustomInputComponent,
+  CustomRadioGroupComponent,
+} from '@/components/custom-ui/forms';
 
 export type FormValuesType = z.infer<typeof formSchema>;
 const formSchema = z.object({
   username: z.string().min(2).max(12),
   email: z.string().email(),
+
+  gender: z.enum(['male', 'female'], { message: 'Required Custom!' }),
 });
+
+type GenderType = {
+  label: string;
+  value: string;
+};
+const genderOptions: GenderType[] = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+];
 
 export type PageProps = {};
 
@@ -34,6 +48,7 @@ const Page: React.FC<PageProps> = () => {
     defaultValues: {
       username: '',
       email: '',
+      // gender: 'male',
     },
   });
 
@@ -92,6 +107,50 @@ const Page: React.FC<PageProps> = () => {
             control={form.control}
             type="email"
           />
+
+          {/* --------- gender --------- */}
+          <CustomRadioGroupComponent<FormValuesType, GenderType>
+            label="Gender"
+            name="gender"
+            control={form.control}
+            // options
+            labelKey="label"
+            valueKey="value"
+            options={genderOptions}
+          />
+
+          {/* <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Gender</FormLabel>
+
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="male" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Male</FormLabel>
+                    </FormItem>
+
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="female" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Female</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
 
           <Button type="submit">Submit</Button>
         </form>

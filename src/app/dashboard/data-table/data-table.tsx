@@ -18,6 +18,9 @@ import {
   // filter -------
   ColumnFiltersState,
   getFilteredRowModel,
+
+  // visibility -------
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import { Input } from '@/components/ui/input'; // filter
@@ -36,6 +39,14 @@ import {
 import { ColorBadgedType } from './columns';
 import { CustomSelectNoForm } from '@/components/custom-ui';
 import { Payment } from '@/utils/data-table.utils';
+
+// visibility -------
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -72,6 +83,9 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({});
   const showDeleteBtn = Object.keys(rowSelection).length > 0;
 
+  // visibility -------
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
   // // Actual table Logic - Hook ===================================
   const table = useReactTable({
     data,
@@ -92,6 +106,9 @@ export function DataTable<TData, TValue>({
 
       // select row
       rowSelection,
+
+      // visibility
+      columnVisibility,
     },
 
     // filter -------
@@ -100,6 +117,9 @@ export function DataTable<TData, TValue>({
 
     // select row -------
     onRowSelectionChange: setRowSelection,
+
+    // visibility -------
+    onColumnVisibilityChange: setColumnVisibility,
   });
 
   return (
@@ -135,6 +155,34 @@ export function DataTable<TData, TValue>({
               console.log('rawValue', rawValue);
             }}
           />
+
+          {/* ------- visibility ------- */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter(column => column.getCanHide())
+                .map(column => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={value =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {showDeleteBtn && (
             <Button

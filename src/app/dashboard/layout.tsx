@@ -96,6 +96,12 @@ const links = [
     name: 'data table',
     href: 'data-table',
   },
+
+  // form
+  {
+    name: 'form',
+    href: 'form',
+  },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function DashboardLayout({

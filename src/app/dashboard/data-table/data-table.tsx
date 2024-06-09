@@ -48,6 +48,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+// page size -------
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+} from '@/components/ui/select';
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -297,6 +307,24 @@ export function DataTable<TData, TValue>({
               Next
             </Button>
           </div>
+        </div>
+
+        {/* ----- paging size ----- */}
+        <div className="flex justify-end mx-2 my-2">
+          <Select onValueChange={value => table.setPageSize(+value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="10 Rows" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="10">10 Rows</SelectItem>
+                <SelectItem value="20">20 Rows</SelectItem>
+                <SelectItem value="50">50 Rows</SelectItem>
+                <SelectItem value="100">100 Rows</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </>

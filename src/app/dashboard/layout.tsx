@@ -91,6 +91,12 @@ const links = [
     href: 'sonner',
   },
 
+  // tabs
+  {
+    name: 'tabs',
+    href: 'tabs',
+  },
+
   // data table
   {
     name: 'data table',

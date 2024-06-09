@@ -20,6 +20,9 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table';
 
+import { Input } from '@/components/ui/input'; // filter
+import { Trash2Icon } from 'lucide-react'; // select row
+
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -30,9 +33,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { Input } from '@/components/ui/input'; // filter
 import { ColorBadgedType } from './columns';
 import { CustomSelectNoForm } from '@/components/custom-ui';
+import { Payment } from '@/utils/data-table.utils';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -65,6 +68,10 @@ export function DataTable<TData, TValue>({
   const [currentStatus, setCurrentStatus] =
     useState<ColorBadgedTypeOptions>('all');
 
+  // select row -------
+  const [rowSelection, setRowSelection] = useState({});
+  const showDeleteBtn = Object.keys(rowSelection).length > 0;
+
   // // Actual table Logic - Hook ===================================
   const table = useReactTable({
     data,
@@ -82,11 +89,17 @@ export function DataTable<TData, TValue>({
 
       // filter
       columnFilters,
+
+      // select row
+      rowSelection,
     },
 
     // filter -------
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+
+    // select row -------
+    onRowSelectionChange: setRowSelection,
   });
 
   return (
@@ -102,25 +115,43 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        <CustomSelectNoForm<StatusDataType>
-          label="label"
-          valueKey="value"
-          options={statusData}
-          value={currentStatus}
-          setValue={(value: string) =>
-            setCurrentStatus(value as ColorBadgedType)
-          }
-          placeholder="Select status"
-          selectGroupLabel="Status"
-          onChangeValue={value => {
-            value === 'all'
-              ? table.getColumn('status')?.setFilterValue(undefined)
-              : table.getColumn('status')?.setFilterValue(value);
-          }}
-          onChangeRawValue={rawValue => {
-            console.log('rawValue', rawValue);
-          }}
-        />
+        <div className="flex items-end justify-center gap-4">
+          <CustomSelectNoForm<StatusDataType>
+            label="label"
+            valueKey="value"
+            options={statusData}
+            value={currentStatus}
+            setValue={(value: string) =>
+              setCurrentStatus(value as ColorBadgedType)
+            }
+            placeholder="Select status"
+            selectGroupLabel="Status"
+            onChangeValue={value => {
+              value === 'all'
+                ? table.getColumn('status')?.setFilterValue(undefined)
+                : table.getColumn('status')?.setFilterValue(value);
+            }}
+            onChangeRawValue={rawValue => {
+              console.log('rawValue', rawValue);
+            }}
+          />
+
+          {showDeleteBtn && (
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => {
+                const names = table
+                  .getSelectedRowModel()
+                  .rows.map(row => (row.original as Payment).clientName);
+
+                console.log('ids', names);
+              }}
+            >
+              <Trash2Icon className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* =============================== TABLE =============================== */}
@@ -191,6 +222,12 @@ export function DataTable<TData, TValue>({
                 {table?.getRowCount()} rows
               </span>
             )}
+
+            <div className="flex-1 text-sm text-muted-foreground">
+              {table.getFilteredSelectedRowModel().rows.length} of{' '}
+              {table.getPaginationRowModel().rows.length} showed row(s) of{' '}
+              {table.getFilteredRowModel().rows.length} row(s) selected.
+            </div>
           </div>
 
           {/* ---------------- PAGINATION BUTTONS ---------------- */}

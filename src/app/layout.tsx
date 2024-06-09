@@ -11,6 +11,9 @@ import { Toaster } from '@/components/ui/toaster';
 // // Sonner
 import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 
+// // ThemeProvider
+import { ThemeProvider } from '@/components/ui/theme-provider';
+
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -27,14 +30,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
-        {children}
+        {/* only wrap children */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
 
         <Toaster />
         <SonnerToaster
